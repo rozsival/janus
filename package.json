@@ -1,11 +1,11 @@
 {
-  "name": "@rozsival/panther-minor-controller",
+  "name": "@rozsival/janus",
   "version": "1.0.12",
   "private": true,
-  "description": "Remote power control for Panther Minor AI workstation",
+  "description": "Remote power control for the Pantheon home server",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rozsival/panther-minor-controller.git"
+    "url": "https://github.com/rozsival/janus.git"
   },
   "license": "MIT",
   "type": "module",

@@ -1,7 +1,7 @@
 # 🏗️ Architecture
 
-> Panther Minor Controller is a single Rust binary on a Raspberry Pi Zero 2 W. It serves a dashboard and a JSON API
-> over Tailscale, drives a relay wired across the Panther Minor's power button pins, and tracks the workstation's
+> Janus is a single Rust binary on a Raspberry Pi Zero 2 W. It serves a dashboard and a JSON API
+> over Tailscale, drives a relay wired across Pantheon's power button pins, and tracks its
 > power state through a TCP reachability probe.
 
 **Related:** [Hardware & wiring](hardware.md) · [API reference](api.md) · [Networking & security](networking.md) ·
@@ -16,14 +16,14 @@ flowchart LR
     U[Browser / API clients] -->|Tailscale| C[Controller<br/>Hyper HTTP :8080]
     C --> R[RelayTrait]
     R -->|GPIO BCM 17| M[5V relay module]
-    M -->|PWR+ ↔ PWR-| P[Panther Minor]
+    M -->|PWR+ ↔ PWR-| P[Pantheon]
 
     C --> S[Power state]
     T[Status poller] -->|TCP connect<br/>STATUS_HOST:STATUS_PORT| P
     T --> S
 ```
 
-A short relay closure is a power button press. The controller never talks to the workstation's OS — it only presses
+A short relay closure is a power button press. The controller never talks to Pantheon's OS — it only presses
 the button and checks whether a TCP port answers.
 
 ## 🧩 Components
@@ -47,7 +47,7 @@ the button and checks whether a TCP port answers.
 
 ### Press timings
 
-| Action     | Relay sequence                  | Effect on the workstation             |
+| Action     | Relay sequence                  | Effect on Pantheon                    |
 | ---------- | ------------------------------- | ------------------------------------- |
 | Power on   | Close 0.5s                      | Boots the machine                     |
 | Power off  | Close 0.5s                      | ACPI power button event → OS shutdown |
@@ -61,7 +61,7 @@ sequenceDiagram
     participant B as Browser
     participant C as Controller
     participant R as Relay
-    participant P as Panther Minor
+    participant P as Pantheon
 
     B->>C: POST /api/power-on
     C->>C: Guard: already on? → 400
@@ -114,8 +114,8 @@ physical button, an OS-initiated shutdown) show up within one poll interval. Con
 
 ### Why a relay instead of software shutdown over SSH?
 
-A relay works when the workstation is off, hung, or has no network — exactly the situations where remote access is
-needed. It also needs no credentials or agent on the workstation.
+A relay works when Pantheon is off, hung, or has no network — exactly the situations where remote access is
+needed. It also needs no credentials or agent on Pantheon.
 
 ### Why does the state start as "off" after the controller restarts?
 

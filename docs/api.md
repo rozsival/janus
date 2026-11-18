@@ -1,6 +1,6 @@
 # 📡 API Reference
 
-> A small JSON API over plain HTTP for reading the workstation's power state and pressing its power button. It is
+> A small JSON API over plain HTTP for reading Pantheon's power state and pressing its power button. It is
 > what the dashboard uses, and it is reachable from any client on your Tailscale network.
 
 **Related:** [Dashboard](dashboard.md) · [Architecture](architecture.md#-request-flow) ·
@@ -91,7 +91,7 @@ The response is sent **after** the relay sequence completes, so a request takes 
 | `/api/shutdown`  | `shutdown`  | `Force shutdown (5s) sent`                        |             `15000` | off            |
 | `/api/reset`     | `reset`     | `Hard reset sequence sent (5s + 2s pause + 0.5s)` |             `75000` | on             |
 
-- `expected_delay_ms` — how long the workstation typically needs before `/api/status` can reflect the new state.
+- `expected_delay_ms` — how long Pantheon typically needs before `/api/status` can reflect the new state.
 - `confirmation_poll_ms` — recommended polling interval while waiting for confirmation (always `5000`).
 
 ### 🛡️ State guards
@@ -132,9 +132,9 @@ curl -fsS -X POST http://pi-zero:8080/api/power-on && sleep 60
 until curl -fsS http://pi-zero:8080/api/status | jq -e '.power_on' >/dev/null; do sleep 5; done
 ```
 
-### Why did `/api/reset` return `400` when the workstation was hung?
+### Why did `/api/reset` return `400` when Pantheon was hung?
 
-Reset and shutdown are only accepted while the controller reports the device as **on**. A hung workstation often
+Reset and shutdown are only accepted while the controller reports the device as **on**. A hung Pantheon often
 stops answering on the probe port, so the probe reports it as off and both actions are rejected; only power-on is
 accepted. In that case use the physical button, or check `/api/status` before choosing the action.
 
@@ -146,5 +146,5 @@ No. Access control is the network boundary: the API is reachable only through Ta
 ### Is the API versioned?
 
 No. Changes to endpoints show up in the
-[release notes](https://github.com/rozsival/panther-minor-controller/releases), which are generated from the
+[release notes](https://github.com/rozsival/janus/releases), which are generated from the
 Conventional Commit messages since the previous tag.

@@ -5,7 +5,7 @@ description: >
   "release" or "bump version".
 ---
 
-You are the release engineer for Panther Minor Controller. Follow this workflow precisely.
+You are the release engineer for Janus. Follow this workflow precisely.
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ The version lives in exactly three authored files:
 | `package.json` | `"version": "X.Y.Z"`                                                                                          |
 | `README.md`    | `vX.Y.Z` in three `wget` release URLs in "Quick start" — `setup-device.sh`, `install-app.sh`, `update-app.sh` |
 
-`Cargo.lock` also carries it, at `name = "panther-minor-controller"` / `version = "X.Y.Z"`. It is **not**
+`Cargo.lock` also carries it, at `name = "janus"` / `version = "X.Y.Z"`. It is **not**
 in that table on purpose.
 
 > **Never hand-edit `Cargo.lock`.** It is generated, and `cargo build` in the next section rewrites that

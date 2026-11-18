@@ -42,5 +42,5 @@ pre-commit:
         - '**/*.yaml'
         - '**/*.yml'
         - '**/*.json'
-        - 'panther-minor-controller.code-workspace'
+        - 'janus.code-workspace'
       stage_fixed: true

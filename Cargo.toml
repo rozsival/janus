@@ -1,8 +1,8 @@
 [package]
-name = 'panther-minor-controller'
+name = 'janus'
 version = '1.0.12'
 edition = '2024'
-description = 'Remote controller for Panther Minor AI workstation'
+description = 'Remote power control for the Pantheon home server'
 license = 'MIT'
 
 [dependencies]

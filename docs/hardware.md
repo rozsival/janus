@@ -1,6 +1,6 @@
 # 🔌 Hardware & Wiring
 
-> The bill of materials and the wiring between the Raspberry Pi Zero 2 W, a 5V relay module and the Panther Minor's
+> The bill of materials and the wiring between the Raspberry Pi Zero 2 W, a 5V relay module and Pantheon's
 > front-panel power button header. The relay is wired in parallel with the physical button, which keeps working.
 
 **Related:** [Installation](installation.md) · [Architecture](architecture.md) · [Operations](operations.md#-configuration)
@@ -18,8 +18,8 @@
 | Wiring       | Female-to-female jumper wires                 |
 
 > [!TIP]
-> Power the Pi from an always-on source (a wall socket, not the workstation's USB ports) so the controller stays up
-> while the Panther Minor is off.
+> Power the Pi from an always-on source (a wall socket, not Pantheon's USB ports) so the controller stays up
+> while Pantheon is off.
 
 ## 🔗 Wiring
 
@@ -37,7 +37,7 @@ flowchart LR
         RC[COM]
         RN[NO]
     end
-    subgraph PM[Panther Minor header]
+    subgraph PM[Pantheon header]
         PP[PWR+]
         PN[PWR-]
     end
@@ -53,8 +53,8 @@ flowchart LR
 | `VCC`     | Pi **5V** (pin 2)      | Relay coil power                         |
 | `GND`     | Pi **GND** (pin 6)     | Ground                                   |
 | `IN1`     | Pi **BCM 17** (pin 11) | Control signal (configurable)            |
-| `COM`     | Panther Minor `PWR+`   | Power button header                      |
-| `NO`      | Panther Minor `PWR-`   | Bridges the header when the relay closes |
+| `COM`     | Pantheon `PWR+`        | Power button header                      |
+| `NO`      | Pantheon `PWR-`        | Bridges the header when the relay closes |
 | `NC`      | —                      | Not used                                 |
 
 > [!NOTE]
@@ -97,5 +97,5 @@ the Pi's GPIO outputs, so pick a module whose input is specified to trigger from
 
 ### Which pins are `PWR+` and `PWR-` on my motherboard?
 
-They are the `PWRBTN` / `PWR_SW` pins of the front-panel header; check the motherboard manual. The hardware
-recommendation for the workstation itself lives in [Panther Minor](https://github.com/rozsival/panther-minor).
+They are the `PWRBTN` / `PWR_SW` pins of the front-panel header; check the motherboard manual of the Pantheon home
+server.

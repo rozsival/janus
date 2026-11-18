@@ -24,7 +24,7 @@
 
 ## 🚀 Install
 
-Each script is published as an asset of every [GitHub release](https://github.com/rozsival/panther-minor-controller/releases).
+Each script is published as an asset of every [GitHub release](https://github.com/rozsival/janus/releases).
 The versioned download commands live in the [root README quick start](../README.md#-quick-start); the steps below
 explain what each one does.
 
@@ -33,15 +33,15 @@ explain what each one does.
 SSH into the Pi, download `setup-device.sh` and run it with `sudo`. It prompts for four values, prints a summary and
 asks for confirmation:
 
-| Prompt       | Default                  | Override variable      | Used for                                    |
-| ------------ | ------------------------ | ---------------------- | ------------------------------------------- |
-| Server name  | Current hostname         | `PANTHER_SERVER_NAME`  | Git identity (`user.name`, `user.email`)    |
-| Allowed user | User that invoked `sudo` | `PANTHER_ALLOWED_USER` | SSH `AllowUsers`, `gpio` group, shell setup |
-| SSH port     | `2222`                   | `PANTHER_SSH_PORT`     | `sshd`, UFW and fail2ban                    |
-| Timezone     | `Europe/Prague`          | `PANTHER_TIMEZONE`     | `timedatectl set-timezone`                  |
+| Prompt       | Default                  | Override variable    | Used for                                    |
+| ------------ | ------------------------ | -------------------- | ------------------------------------------- |
+| Server name  | Current hostname         | `JANUS_SERVER_NAME`  | Git identity (`user.name`, `user.email`)    |
+| Allowed user | User that invoked `sudo` | `JANUS_ALLOWED_USER` | SSH `AllowUsers`, `gpio` group, shell setup |
+| SSH port     | `2222`                   | `JANUS_SSH_PORT`     | `sshd`, UFW and fail2ban                    |
+| Timezone     | `Europe/Prague`          | `JANUS_TIMEZONE`     | `timedatectl set-timezone`                  |
 
 Override variables must be passed through `sudo` to take effect, e.g.
-`sudo PANTHER_TIMEZONE=UTC bash setup-device.sh`.
+`sudo JANUS_TIMEZONE=UTC bash setup-device.sh`.
 
 #### What `setup-device.sh` configures
 
@@ -82,22 +82,44 @@ Open the printed link to authenticate. From then on, reach the Pi through its Ta
 
 Download `install-app.sh` and run it with `sudo`. It:
 
-| Step | What it does                                                                                                  |
-| ---- | ------------------------------------------------------------------------------------------------------------- |
-| 1    | Downloads the **latest** release binary to `/opt/panther-minor-controller/bin/panther-minor-controller`       |
-| 2    | Writes `/opt/panther-minor-controller/env` (mode `600`) with default settings                                 |
-| 3    | Installs `panther-minor-controller.service`, ordered after `tailscaled.service`, running as the invoking user |
-| 4    | Enables and starts the service; restarts it automatically 5s after a failure                                  |
+| Step | What it does                                                                               |
+| ---- | ------------------------------------------------------------------------------------------ |
+| 1    | Downloads the **latest** release binary to `/opt/janus/bin/janus`                          |
+| 2    | Writes `/opt/janus/env` (mode `600`) with default settings                                 |
+| 3    | Installs `janus.service`, ordered after `tailscaled.service`, running as the invoking user |
+| 4    | Enables and starts the service; restarts it automatically 5s after a failure               |
 
 > [!IMPORTANT]
-> Edit `/opt/panther-minor-controller/env` to match your setup — at least `STATUS_HOST` and `STATUS_PORT` for
-> accurate power state — then `sudo systemctl restart panther-minor-controller`. Every variable is described in
+> Edit `/opt/janus/env` to match your setup — at least `STATUS_HOST` and `STATUS_PORT` for
+> accurate power state — then `sudo systemctl restart janus`. Every variable is described in
 > [Operations](operations.md#-configuration).
 
 ### 4. Open the dashboard
 
 Browse to `http://<pi-tailscale-hostname>:8080` (or your custom `PORT`). The [Dashboard](dashboard.md) page explains
 the controls.
+
+### Migrating from Panther Minor Controller
+
+Janus was previously named Panther Minor Controller. Run `update-app.sh` (the versioned command is in the
+[root README quick start](../README.md#-quick-start)) on a Pi that still has the legacy install and it migrates in
+place after the usual confirmation. It triggers while `/opt/panther-minor-controller` or
+`panther-minor-controller.service` still exists, and exits before changing anything if neither the legacy nor the new
+env file and unit are there (reinstall with `install-app.sh` then):
+
+| Step | What it does                                                                            |
+| ---- | --------------------------------------------------------------------------------------- |
+| 1    | Downloads the **latest** release binary to `/opt/janus/bin/janus`                       |
+| 2    | Copies `/opt/panther-minor-controller/env` to `/opt/janus/env` — your settings are kept |
+| 3    | Writes `janus.service` from the legacy unit: same user and options, new paths           |
+| 4    | Stops, disables and removes `panther-minor-controller.service`                          |
+| 5    | Renames the journald drop-in to `/etc/systemd/journald.conf.d/90-janus.conf`            |
+| 6    | Deletes `/opt/panther-minor-controller`                                                 |
+| 7    | Enables and starts `janus`                                                              |
+
+Each step is skipped once done, so if the migration is interrupted, run `update-app.sh` again to finish it. From then
+on the service is called `janus`: use that name in `systemctl` and `journalctl` commands — see
+[Service management](operations.md#-service-management).
 
 ## ✅ Next steps
 
@@ -123,13 +145,19 @@ later requires editing `/etc/ssh/sshd_config` by hand.
 
 ### Does `install-app.sh` keep my configuration when re-run?
 
-No. It rewrites `/opt/panther-minor-controller/env` with defaults. Use `update-app.sh` to upgrade an existing
-installation — see [Updating](operations.md#-updating).
+No. It rewrites `/opt/janus/env` with defaults. Use `update-app.sh` to upgrade an existing installation — see
+[Updating](operations.md#-updating).
+
+### I still run Panther Minor Controller. How do I upgrade?
+
+Run `update-app.sh` — it detects the legacy install and migrates it to Janus without losing your settings; see
+[Migrating from Panther Minor Controller](#migrating-from-panther-minor-controller). Do not use `install-app.sh` for
+this: it writes default settings instead of keeping yours.
 
 ### Can I install a specific version?
 
 The scripts always download the binary from the **latest** release. For an older version, download
-`panther-minor-controller` from that release's assets and replace `/opt/panther-minor-controller/bin/panther-minor-controller`
+`janus` from that release's assets and replace `/opt/janus/bin/janus`
 manually, then restart the service.
 
 ### The service fails with a GPIO permission error. Why?
