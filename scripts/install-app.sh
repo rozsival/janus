@@ -2,15 +2,16 @@
 set -euo pipefail
 
 # -- Configuration -------------------------------------------------------------
-INSTALL_DIR="/opt/panther-minor-controller"
-SERVICE_NAME="panther-minor-controller"
+INSTALL_DIR="/opt/janus"
+SERVICE_NAME="janus"
 
 # Detect actual user (handles sudo context correctly)
 # logname returns the original login name even when running under sudo
 RUN_USER="${SUDO_USER:-$(logname 2>/dev/null || echo root)}"
 
 SYSTEMD_UNIT="/etc/systemd/system/${SERVICE_NAME}.service"
-BIN_URL="https://github.com/rozsival/panther-minor-controller/releases/latest/download/panther-minor-controller"
+BIN_URL="https://github.com/rozsival/janus/releases/latest/download/janus"
+BIN_PATH="${INSTALL_DIR}/bin/janus"
 ENV_FILE="${INSTALL_DIR}/env"
 
 # -- Helpers -------------------------------------------------------------------
@@ -86,18 +87,18 @@ print_summary_table() {
 [[ $EUID -eq 0 ]] || log_error "This script must be run as root (use sudo)."
 
 # -- Step 1: Download binary --------------------------------------------------
-log_info "Downloading panther-minor-controller binary..."
+log_info "Downloading janus binary..."
 
 mkdir -p "${INSTALL_DIR}/bin"
-curl -fsSL "$BIN_URL" -o "${INSTALL_DIR}/bin/panther-minor-controller"
-chmod +x "${INSTALL_DIR}/bin/panther-minor-controller"
+curl -fsSL "$BIN_URL" -o "$BIN_PATH"
+chmod +x "$BIN_PATH"
 
-log_success "Binary installed to ${INSTALL_DIR}/bin/panther-minor-controller."
+log_success "Binary installed to ${BIN_PATH}."
 
 # -- Step 2: Environment variables ---------------------------------------------
 log_info "Configuring environment variables..."
 cat >"$ENV_FILE" <<EOF
-# Panther Minor Controller environment
+# Janus environment
 GPIO_PIN=17
 PORT=8080
 STATUS_POLL_MS=2000
@@ -112,13 +113,13 @@ log_success "Environment file written to $ENV_FILE."
 log_info "Installing systemd service..."
 cat >"$SYSTEMD_UNIT" <<EOF
 [Unit]
-Description=Panther Minor Controller
+Description=Janus
 After=tailscaled.service
 Wants=tailscaled.service
 
 [Service]
 Type=simple
-ExecStart=${INSTALL_DIR}/bin/panther-minor-controller
+ExecStart=${BIN_PATH}
 EnvironmentFile=${ENV_FILE}
 Restart=on-failure
 RestartSec=5
@@ -135,8 +136,8 @@ log_success "Systemd service '${SERVICE_NAME}' enabled and started."
 
 # -- Summary -------------------------------------------------------------------
 print_summary_table \
-  "Panther Minor Controller installed!" \
-  "Binary" "${INSTALL_DIR}/bin/panther-minor-controller" \
+  "Janus installed!" \
+  "Binary" "${BIN_PATH}" \
   "Service" "$SERVICE_NAME" \
   "Config" "$ENV_FILE" \
   "Unit" "$SYSTEMD_UNIT"

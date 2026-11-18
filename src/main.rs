@@ -94,7 +94,7 @@ async fn main() -> Result<()> {
         .await
         .map_err(|e| AppError::Http(format!("Failed to bind to {addr}: {e}")))?;
 
-    println!("🖲️ Panther Minor Controller v{}", env!("CARGO_PKG_VERSION"));
+    println!("🖲️ Janus v{}", env!("CARGO_PKG_VERSION"));
     println!("   Listening on port {}", listener.local_addr()?.port());
     println!(
         "   GPIO Pin: {}",

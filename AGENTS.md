@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Panther Minor Controller is a remote control for [Panther Minor](https://github.com/rozsival/panther-minor) AI workstation via GPIO relay on Raspberry Pi Zero 2 W.
+Janus is a remote control for the Pantheon home server via GPIO relay on Raspberry Pi Zero 2 W. It is a companion tool to [Panther Minor](https://github.com/rozsival/panther-minor), the AI stack running on Pantheon.
 It allows power on/off, force shutdown, and hard reset through a simple web dashboard and API.
 
 Rust 2024 · Tokio · Hyper 1.x · MIT

@@ -1,15 +1,15 @@
 <div align="center">
 
-# 🖲️ Panther Minor Controller
+# 🖲️ Janus
 
-### Remote power control for the [Panther Minor](https://github.com/rozsival/panther-minor) AI workstation
+### Remote power control for the Pantheon home server
 
 ![Platform](https://img.shields.io/badge/Platform-Raspberry%20Pi%20Zero%202%20W-0A84FF)
 ![Architecture](https://img.shields.io/badge/Architecture-ARM64-E01F27)
 ![Language](https://img.shields.io/badge/Language-Rust-FE5E00)
 
-A lightweight, secure remote control in a single binary for a **Raspberry Pi Zero 2 W**. A relay wired across the
-workstation's power button lets you **power on**, **power off**, **force shutdown** and **hard reset** it from a web
+A lightweight, secure remote control in a single binary for a **Raspberry Pi Zero 2 W**. A relay wired across
+Pantheon's power button lets you **power on**, **power off**, **force shutdown** and **hard reset** it from a web
 dashboard or a JSON API, with real-time status tracking.
 
 **[📚 Documentation](docs/README.md)** · [Installation](docs/installation.md) · [Hardware](docs/hardware.md) ·
@@ -31,13 +31,13 @@ dashboard or a JSON API, with real-time status tracking.
 
 ## 🚀 Quick start
 
-**Requires** a Raspberry Pi Zero 2 W running Raspberry Pi OS Lite 64-bit, a 5V relay wired to the workstation's power
+**Requires** a Raspberry Pi Zero 2 W running Raspberry Pi OS Lite 64-bit, a 5V relay wired to Pantheon's power
 button header and a Tailscale account — see [Hardware & wiring](docs/hardware.md) and
 [Installation](docs/installation.md#-prerequisites).
 
 ```bash
 # 1. Prepare and harden the Pi
-wget https://github.com/rozsival/panther-minor-controller/releases/download/v1.0.12/setup-device.sh -O setup-device.sh
+wget https://github.com/rozsival/janus/releases/download/v1.0.12/setup-device.sh -O setup-device.sh
 sudo bash setup-device.sh && rm setup-device.sh
 
 # 2. Reconnect on port 2222 and join Tailscale
@@ -45,11 +45,11 @@ ssh -p 2222 <user>@<pi-ip>
 sudo tailscale up
 
 # 3. Install the controller service
-wget https://github.com/rozsival/panther-minor-controller/releases/download/v1.0.12/install-app.sh -O install-app.sh
+wget https://github.com/rozsival/janus/releases/download/v1.0.12/install-app.sh -O install-app.sh
 sudo bash install-app.sh && rm install-app.sh
 ```
 
-Point the status probe at the workstation in `/opt/panther-minor-controller/env`, restart the service, then open
+Point the status probe at Pantheon in `/opt/janus/env`, restart the service, then open
 `http://<pi-tailscale-hostname>:8080`.
 
 > [!WARNING]
@@ -59,7 +59,7 @@ Point the status probe at the workstation in `/opt/panther-minor-controller/env`
 To update an existing installation later:
 
 ```bash
-wget https://github.com/rozsival/panther-minor-controller/releases/download/v1.0.12/update-app.sh -O update-app.sh
+wget https://github.com/rozsival/janus/releases/download/v1.0.12/update-app.sh -O update-app.sh
 sudo bash update-app.sh && rm update-app.sh
 ```
 
@@ -73,6 +73,6 @@ lives in **[docs/](docs/README.md)**.
 | Item       | Details                                                                                       |
 | ---------- | --------------------------------------------------------------------------------------------- |
 | Maintainer | [@rozsival](https://github.com/rozsival) (see [`CODEOWNERS`](CODEOWNERS))                     |
-| Issues     | [GitHub Issues](https://github.com/rozsival/panther-minor-controller/issues)                  |
-| Companion  | [Panther Minor](https://github.com/rozsival/panther-minor) — the AI workstation this controls |
+| Issues     | [GitHub Issues](https://github.com/rozsival/janus/issues)                                     |
+| Companion  | [Panther Minor](https://github.com/rozsival/panther-minor) — the AI stack running on Pantheon |
 | License    | [MIT](LICENSE)                                                                                |

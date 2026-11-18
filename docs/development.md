@@ -1,6 +1,6 @@
 # 🧪 Development
 
-> How to work on Panther Minor Controller itself: toolchain, running locally without hardware, quality checks, tests,
+> How to work on Janus itself: toolchain, running locally without hardware, quality checks, tests,
 > commit rules, CI, releases, and the agent assets that automate recurring maintenance.
 
 **Related:** [Architecture](architecture.md) · [API reference](api.md) · [Documentation index](README.md)
@@ -90,7 +90,7 @@ cargo test power_on      # filter by name
 | `.github/workflows/ci.yml`      | Push / PR to `main`            | `qa`: commitlint, `cargo fmt --check`, `prettier --check`, `cargo check`, Clippy, ShellCheck; `test`: `cargo test`                     |
 | `.github/workflows/release.yml` | Push to `main` or tag `v*.*.*` | On a `chore(release): vX.Y.Z` commit: cross-compiles `aarch64-unknown-linux-gnu`, tags it, publishes a release with a commit changelog |
 
-Each release publishes four assets: the `panther-minor-controller` binary and the three scripts from `scripts/`. The
+Each release publishes four assets: the `janus` binary and the three scripts from `scripts/`. The
 release profile is size-optimized: `opt-level = "z"`, LTO, `strip`, one codegen unit.
 
 Releases go through a `release/vX.Y.Z` branch: bump the version in `Cargo.toml`, `package.json` and the root README

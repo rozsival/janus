@@ -75,40 +75,40 @@ print_summary_table() {
 
 # -- Interactive prompts -------------------------------------------------------
 echo ""
-echo "🖲️  Panther Minor Controller — Device Setup"
-echo "============================================"
+echo "🖲️  Janus — Device Setup"
+echo "========================="
 
 # Detect actual user (handles sudo context correctly)
 # logname returns the original login name even when running under sudo
 ACTUAL_USER="${SUDO_USER:-$(logname 2>/dev/null || echo root)}"
 
 # Default values before prompts (prevents unbound variable errors)
-PANTHER_SERVER_NAME="${PANTHER_SERVER_NAME:-${HOSTNAME}}"
-PANTHER_ALLOWED_USER="${PANTHER_ALLOWED_USER:-${ACTUAL_USER}}"
-PANTHER_SSH_PORT="${PANTHER_SSH_PORT:-2222}"
-PANTHER_TIMEZONE="${PANTHER_TIMEZONE:-Europe/Prague}"
+JANUS_SERVER_NAME="${JANUS_SERVER_NAME:-${HOSTNAME}}"
+JANUS_ALLOWED_USER="${JANUS_ALLOWED_USER:-${ACTUAL_USER}}"
+JANUS_SSH_PORT="${JANUS_SSH_PORT:-2222}"
+JANUS_TIMEZONE="${JANUS_TIMEZONE:-Europe/Prague}"
 
 # Prompt for values (use defaults if non-interactive)
 if [[ $- == *i* ]] || [[ -t 0 ]]; then
-  read -r -p "Enter server name (default: ${PANTHER_SERVER_NAME}): " server_name_in
-  [[ -n "$server_name_in" ]] && PANTHER_SERVER_NAME="$server_name_in"
+  read -r -p "Enter server name (default: ${JANUS_SERVER_NAME}): " server_name_in
+  [[ -n "$server_name_in" ]] && JANUS_SERVER_NAME="$server_name_in"
 
-  read -r -p "Enter allowed user (default: ${PANTHER_ALLOWED_USER}): " allowed_user_in
-  [[ -n "$allowed_user_in" ]] && PANTHER_ALLOWED_USER="$allowed_user_in"
+  read -r -p "Enter allowed user (default: ${JANUS_ALLOWED_USER}): " allowed_user_in
+  [[ -n "$allowed_user_in" ]] && JANUS_ALLOWED_USER="$allowed_user_in"
 
-  read -r -p "Enter SSH port (default: ${PANTHER_SSH_PORT}): " ssh_port_in
-  [[ -n "$ssh_port_in" ]] && PANTHER_SSH_PORT="$ssh_port_in"
+  read -r -p "Enter SSH port (default: ${JANUS_SSH_PORT}): " ssh_port_in
+  [[ -n "$ssh_port_in" ]] && JANUS_SSH_PORT="$ssh_port_in"
 
-  read -r -p "Enter timezone (default: ${PANTHER_TIMEZONE}): " timezone_in
-  [[ -n "$timezone_in" ]] && PANTHER_TIMEZONE="$timezone_in"
+  read -r -p "Enter timezone (default: ${JANUS_TIMEZONE}): " timezone_in
+  [[ -n "$timezone_in" ]] && JANUS_TIMEZONE="$timezone_in"
 fi
 
 print_summary_table \
   "Setup summary" \
-  "Server name" "$PANTHER_SERVER_NAME" \
-  "Allowed user" "$PANTHER_ALLOWED_USER" \
-  "SSH port" "$PANTHER_SSH_PORT" \
-  "Timezone" "$PANTHER_TIMEZONE"
+  "Server name" "$JANUS_SERVER_NAME" \
+  "Allowed user" "$JANUS_ALLOWED_USER" \
+  "SSH port" "$JANUS_SSH_PORT" \
+  "Timezone" "$JANUS_TIMEZONE"
 
 read -r -p "Proceed with setup? (y/N): " confirm
 [[ "$confirm" =~ ^[Yy]$ ]] || {
@@ -117,9 +117,9 @@ read -r -p "Proceed with setup? (y/N): " confirm
 }
 
 # -- Step 1: Timezone ---------------------------------------------------------
-log_info "Setting timezone to $PANTHER_TIMEZONE..."
-timedatectl set-timezone "$PANTHER_TIMEZONE"
-log_success "Timezone set to $PANTHER_TIMEZONE."
+log_info "Setting timezone to $JANUS_TIMEZONE..."
+timedatectl set-timezone "$JANUS_TIMEZONE"
+log_success "Timezone set to $JANUS_TIMEZONE."
 
 # -- Step 2: Update & essential packages --------------------------------------
 log_info "Updating system and installing essential packages..."
@@ -139,15 +139,15 @@ apt install -y \
 log_success "Essential packages installed."
 
 # -- Step 3: Git --------------------------------------------------------------
-log_info "Configuring Git for $PANTHER_ALLOWED_USER..."
-sudo -u "$PANTHER_ALLOWED_USER" git config --global user.name "$PANTHER_SERVER_NAME"
-sudo -u "$PANTHER_ALLOWED_USER" git config --global user.email "${PANTHER_ALLOWED_USER}@${PANTHER_SERVER_NAME}"
-sudo -u "$PANTHER_ALLOWED_USER" git config --global pull.rebase true
-sudo -u "$PANTHER_ALLOWED_USER" git config --global credential.helper store
-log_success "Git configured for $PANTHER_ALLOWED_USER."
+log_info "Configuring Git for $JANUS_ALLOWED_USER..."
+sudo -u "$JANUS_ALLOWED_USER" git config --global user.name "$JANUS_SERVER_NAME"
+sudo -u "$JANUS_ALLOWED_USER" git config --global user.email "${JANUS_ALLOWED_USER}@${JANUS_SERVER_NAME}"
+sudo -u "$JANUS_ALLOWED_USER" git config --global pull.rebase true
+sudo -u "$JANUS_ALLOWED_USER" git config --global credential.helper store
+log_success "Git configured for $JANUS_ALLOWED_USER."
 
 # -- Step 4: SSH hardening ---------------------------------------------------
-log_info "Hardening SSH (port $PANTHER_SSH_PORT, key-only auth)..."
+log_info "Hardening SSH (port $JANUS_SSH_PORT, key-only auth)..."
 
 SSHD_CONFIG="/etc/ssh/sshd_config"
 if [[ ! -f "${SSHD_CONFIG}.orig" ]]; then
@@ -160,7 +160,7 @@ rm -f /etc/ssh/sshd_config.d/*.conf
 
 # Apply settings via sed (portable, no augeas dependency)
 declare -A sshd_settings=(
-  [Port]="$PANTHER_SSH_PORT"
+  [Port]="$JANUS_SSH_PORT"
   [PasswordAuthentication]="no"
   [KbdInteractiveAuthentication]="no"
   [ChallengeResponseAuthentication]="no"
@@ -187,7 +187,7 @@ done
 
 # AllowUsers (append if not present)
 if ! grep -qE "^AllowUsers " "$SSHD_CONFIG"; then
-  echo "AllowUsers $PANTHER_ALLOWED_USER" >>"$SSHD_CONFIG"
+  echo "AllowUsers $JANUS_ALLOWED_USER" >>"$SSHD_CONFIG"
 fi
 
 # Validate before applying
@@ -197,22 +197,22 @@ if ! sshd -t 2>&1; then
 fi
 
 systemctl restart ssh
-log_success "SSH hardened on port $PANTHER_SSH_PORT."
+log_success "SSH hardened on port $JANUS_SSH_PORT."
 
 # -- Step 5: UFW --------------------------------------------------------------
 log_info "Configuring UFW firewall..."
 ufw --force reset
 ufw default deny incoming
 ufw default allow outgoing
-ufw allow "${PANTHER_SSH_PORT}/tcp" comment 'SSH'
+ufw allow "${JANUS_SSH_PORT}/tcp" comment 'SSH'
 ufw --force enable
-log_success "UFW enabled. Open ports: SSH($PANTHER_SSH_PORT). All other traffic blocked."
+log_success "UFW enabled. Open ports: SSH($JANUS_SSH_PORT). All other traffic blocked."
 
 # -- Step 6: GPIO group -------------------------------------------------------
-log_info "Granting ${PANTHER_ALLOWED_USER} GPIO access..."
+log_info "Granting ${JANUS_ALLOWED_USER} GPIO access..."
 groupadd -f gpio
-usermod -aG gpio "$PANTHER_ALLOWED_USER"
-log_success "${PANTHER_ALLOWED_USER} added to the gpio group."
+usermod -aG gpio "$JANUS_ALLOWED_USER"
+log_success "${JANUS_ALLOWED_USER} added to the gpio group."
 
 # -- Step 7: fail2ban ---------------------------------------------------------
 log_info "Configuring fail2ban..."
@@ -221,7 +221,7 @@ JAIL_LOCAL="/etc/fail2ban/jail.local"
 cat >"$JAIL_LOCAL" <<EOF
 [sshd]
 enabled  = true
-port     = ${PANTHER_SSH_PORT}
+port     = ${JANUS_SSH_PORT}
 filter   = sshd
 logpath  = /var/log/auth.log
 maxretry = 3
@@ -250,30 +250,30 @@ else
 fi
 
 # -- Step 9: Shell + Starship -------------------------------------------------
-log_info "Setting up shell with Starship prompt for $PANTHER_ALLOWED_USER..."
+log_info "Setting up shell with Starship prompt for $JANUS_ALLOWED_USER..."
 
 # Ensure home dir exists
-mkdir -p "/home/$PANTHER_ALLOWED_USER"
+mkdir -p "/home/$JANUS_ALLOWED_USER"
 
-BASHRC="/home/$PANTHER_ALLOWED_USER/.bashrc"
+BASHRC="/home/$JANUS_ALLOWED_USER/.bashrc"
 if ! grep -qF 'starship init bash' "$BASHRC" 2>/dev/null; then
   # shellcheck disable=SC2016 # written literally, expanded by bash at login
   printf '\n# Starship prompt\neval "$(starship init bash)"\n' >>"$BASHRC"
-  chown "$PANTHER_ALLOWED_USER:$PANTHER_ALLOWED_USER" "$BASHRC"
+  chown "$JANUS_ALLOWED_USER:$JANUS_ALLOWED_USER" "$BASHRC"
 fi
 
-loginctl enable-linger "$PANTHER_ALLOWED_USER" 2>/dev/null || true
-log_success "Shell set up with Starship prompt for $PANTHER_ALLOWED_USER."
+loginctl enable-linger "$JANUS_ALLOWED_USER" 2>/dev/null || true
+log_success "Shell set up with Starship prompt for $JANUS_ALLOWED_USER."
 
 # -- Step 10: Persistent journal ----------------------------------------------
 log_info "Enabling persistent system journal..."
 
 # Raspberry Pi OS keeps the journal in RAM (/usr/lib/systemd/journald.conf.d/40-rpi-volatile-storage.conf),
 # so everything logged before a hang or reboot is lost. This drop-in sorts after it and after raspi-config's 80-*.
-JOURNALD_DROPIN="/etc/systemd/journald.conf.d/90-panther-minor-controller.conf"
+JOURNALD_DROPIN="/etc/systemd/journald.conf.d/90-janus.conf"
 mkdir -p "$(dirname "$JOURNALD_DROPIN")"
 cat >"$JOURNALD_DROPIN" <<'EOF'
-# Managed by panther-minor-controller setup-device.sh
+# Managed by janus setup-device.sh
 [Journal]
 Storage=persistent
 SystemMaxUse=100M
@@ -286,10 +286,10 @@ log_success "Journal persists across reboots (journalctl --list-boots)."
 
 # -- Summary ------------------------------------------------------------------
 print_summary_table \
-  "Panther Minor Controller setup complete!" \
-  "Timezone" "$PANTHER_TIMEZONE" \
-  "SSH port" "$PANTHER_SSH_PORT" \
-  "User" "$PANTHER_ALLOWED_USER" \
+  "Janus setup complete!" \
+  "Timezone" "$JANUS_TIMEZONE" \
+  "SSH port" "$JANUS_SSH_PORT" \
+  "User" "$JANUS_ALLOWED_USER" \
   "Tailscale" "installed" \
   "Firewall" "UFW active" \
   "fail2ban" "active" \
@@ -299,4 +299,4 @@ print_summary_table \
 log_warn "⚠  To finish Tailscale setup, run: sudo tailscale up"
 echo ""
 
-log_info "Reconnection: ssh -p $PANTHER_SSH_PORT $PANTHER_ALLOWED_USER@<server-ip>"
+log_info "Reconnection: ssh -p $JANUS_SSH_PORT $JANUS_ALLOWED_USER@<server-ip>"

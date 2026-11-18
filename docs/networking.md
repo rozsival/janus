@@ -1,6 +1,6 @@
 # 🔐 Networking & Security
 
-> The controller can switch a workstation off, so it is never exposed beyond your Tailscale network. The Pi is
+> The controller can switch a home server off, so it is never exposed beyond your Tailscale network. The Pi is
 > hardened by `setup-device.sh`: UFW blocks every inbound port except SSH, SSH accepts keys only, and fail2ban bans
 > brute-force attempts.
 
@@ -24,15 +24,15 @@ packet filter rules accept traffic arriving over the tailnet interface — so th
 tailnet devices only.
 
 > [!IMPORTANT]
-> Anyone on your tailnet can power the workstation on and off. Use
+> Anyone on your tailnet can power Pantheon on and off. Use
 > [Tailscale access controls](https://tailscale.com/kb/1018/acls) to restrict which devices or users may reach the Pi.
 
 ## 🌐 Port reference
 
-| Port   | Service    | Reachable from  | Configured by                           |
-| ------ | ---------- | --------------- | --------------------------------------- |
-| `2222` | SSH        | LAN and tailnet | `PANTHER_SSH_PORT` in `setup-device.sh` |
-| `8080` | Controller | Tailnet only    | `PORT` in the environment file          |
+| Port   | Service    | Reachable from  | Configured by                         |
+| ------ | ---------- | --------------- | ------------------------------------- |
+| `2222` | SSH        | LAN and tailnet | `JANUS_SSH_PORT` in `setup-device.sh` |
+| `8080` | Controller | Tailnet only    | `PORT` in the environment file        |
 
 Outbound, the controller only opens TCP connections to `STATUS_HOST:STATUS_PORT` for the
 [status probe](operations.md#-status-probe).

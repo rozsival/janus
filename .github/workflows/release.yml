@@ -149,7 +149,7 @@ jobs:
           tag_name: ${{ needs.detect.outputs.tag }}
           target_commitish: ${{ needs.detect.outputs.sha }}
           files: |
-            target/aarch64-unknown-linux-gnu/release/panther-minor-controller
+            target/aarch64-unknown-linux-gnu/release/janus
             scripts/setup-device.sh
             scripts/install-app.sh
             scripts/update-app.sh

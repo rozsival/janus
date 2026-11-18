@@ -1,6 +1,6 @@
-# 📚 Panther Minor Controller Documentation
+# 📚 Janus Documentation
 
-> Entry point to the Panther Minor Controller documentation. Each page covers **one domain**, opens with a
+> Entry point to the Janus documentation. Each page covers **one domain**, opens with a
 > one-paragraph summary, links its related pages, and ends with an FAQ where one is useful.
 
 New here? Start with [Hardware & wiring](hardware.md), then [Installation](installation.md). The project overview and
@@ -19,7 +19,7 @@ quick start live in the [root README](../README.md).
 | [Dashboard](dashboard.md)              | Use the web interface                                 | Buttons, status indicator, confirmation dialogs, action verification     |
 | [API reference](api.md)                | Automate power control from scripts or other tools    | Endpoints, response fields, state guards, errors                         |
 | [Networking & security](networking.md) | Know who can reach the controller and how             | Tailscale, UFW, SSH hardening, fail2ban, ports                           |
-| [Sleep & Wake-on-LAN](wake-on-lan.md)  | Suspend the workstation and wake it remotely          | BIOS, `ethtool`, `wakeonlan`, remote aliases                             |
+| [Sleep & Wake-on-LAN](wake-on-lan.md)  | Suspend Pantheon and wake it remotely                 | BIOS, `ethtool`, `wakeonlan`, remote aliases                             |
 | [Development](development.md)          | Contribute, run checks or cut a release               | Toolchain, simulation mode, tests, hooks, CI, releases, agent assets     |
 
 ## 🛤️ Reading paths
@@ -33,7 +33,7 @@ quick start live in the [root README](../README.md).
 
 ### Daily use
 
-- [Dashboard](dashboard.md) or the [API reference](api.md) to control the workstation
+- [Dashboard](dashboard.md) or the [API reference](api.md) to control Pantheon
 - [Operations](operations.md) for logs, restarts and updates
 - [Sleep & Wake-on-LAN](wake-on-lan.md) for power-saving suspend instead of shutdown
 
