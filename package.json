@@ -1,6 +1,6 @@
 {
   "name": "@rozsival/janus",
-  "version": "1.0.12",
+  "version": "2.0.0",
   "private": true,
   "description": "Remote power control for the Pantheon home server",
   "repository": {
