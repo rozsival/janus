@@ -17,6 +17,11 @@ dashboard or a JSON API, with real-time status tracking.
 
 </div>
 
+> [!NOTE]
+> **Pantheon** is simply the name the author gave his own home server. It is not a product, a service or a specific
+> hardware model. Janus works with any PC whose motherboard has a front-panel power button header; wherever these
+> docs say Pantheon, read "the machine you control".
+
 ---
 
 ## ✨ Highlights
