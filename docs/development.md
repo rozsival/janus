@@ -9,18 +9,18 @@
 
 ## 🧰 Toolchain
 
-| Tool       | Version / config                                                | Role                                                                                            |
-| ---------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Rust       | stable, edition 2024 (`Cargo.toml`)                             | Application                                                                                     |
-| Node.js    | `24.x` (`engines`)                                              | Tooling only                                                                                    |
-| pnpm       | `packageManager` in `package.json`                              | Package manager and script runner                                                               |
-| Prettier   | `prettier.config.js` (`printWidth: 120`)                        | Markdown, JSON, TOML, YAML formatting; shell (`*.sh`, via `prettier-plugin-sh` as `shfmt -i 2`) |
-| ShellCheck | `shellcheck` package (pins the binary, downloaded on first run) | Lints `scripts/*.sh`                                                                            |
-| rustfmt    | defaults                                                        | Rust formatting                                                                                 |
-| Clippy     | `-D warnings`                                                   | Rust linting                                                                                    |
-| Lefthook   | `lefthook.yml`                                                  | Git hooks                                                                                       |
-| commitlint | `commitlint.config.js`                                          | Conventional Commits enforcement                                                                |
-| Renovate   | `renovate.json`                                                 | Dependency updates, auto-merged after 1 day                                                     |
+| Tool       | Version / config                                                                              | Role                                                                                            |
+| ---------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Rust       | stable, edition 2024 (`Cargo.toml`)                                                           | Application                                                                                     |
+| Node.js    | `24.x` (`engines`)                                                                            | Tooling only                                                                                    |
+| pnpm       | `packageManager` in `package.json`                                                            | Package manager and script runner                                                               |
+| Prettier   | `prettier.config.js` (`printWidth: 120`)                                                      | Markdown, JSON, TOML, YAML formatting; shell (`*.sh`, via `prettier-plugin-sh` as `shfmt -i 2`) |
+| ShellCheck | System binary on `PATH` (`brew install shellcheck`); CI pins `SHELLCHECK_VERSION` in `ci.yml` | Lints `scripts/*.sh`                                                                            |
+| rustfmt    | defaults                                                                                      | Rust formatting                                                                                 |
+| Clippy     | `-D warnings`                                                                                 | Rust linting                                                                                    |
+| Lefthook   | `lefthook.yml`                                                                                | Git hooks                                                                                       |
+| commitlint | `commitlint.config.js`                                                                        | Conventional Commits enforcement                                                                |
+| Renovate   | `renovate.json`                                                                               | Dependency updates, auto-merged after 1 day                                                     |
 
 ```bash
 pnpm install   # installs the Git hooks outside CI
