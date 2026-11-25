@@ -6,7 +6,7 @@ description = 'Remote power control for the Pantheon home server'
 license = 'MIT'
 
 [dependencies]
-hyper = { version = '=1.12.0', features = ['full'] }
+hyper = { version = '=1.13.0', features = ['full'] }
 http-body = '=1.1.0'
 hyper-util = { version = '=0.1.21', features = ['full'] }
 http-body-util = '=0.1.5'
