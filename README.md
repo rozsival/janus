@@ -17,11 +17,6 @@ dashboard or a JSON API, with real-time status tracking.
 
 </div>
 
-> [!NOTE]
-> **Pantheon** is simply the name the author gave his own home server. It is not a product, a service or a specific
-> hardware model. Janus works with any PC whose motherboard has a front-panel power button header; wherever these
-> docs say Pantheon, read "the machine you control".
-
 ---
 
 ## ✨ Highlights
@@ -68,6 +63,13 @@ wget https://github.com/rozsival/janus/releases/download/v2.0.0/update-app.sh -O
 sudo bash update-app.sh && rm update-app.sh
 ```
 
+## 🧭 The stack
+
+Janus controls the power of Pantheon, the author's home server, set up with the [Pantheon](https://github.com/rozsival/pantheon) baseline and running
+[Panther Minor](https://github.com/rozsival/panther-minor) and [Devbox](https://github.com/rozsival/devbox). It works
+with any PC whose motherboard has a front-panel power button header: wherever these docs say Pantheon, read "the
+machine you control". The whole map is in [Pantheon's README](https://github.com/rozsival/pantheon#-the-stack).
+
 ## 📚 Documentation
 
 Everything else — architecture, hardware, configuration, dashboard, API, networking, Wake-on-LAN and development —
@@ -75,9 +77,8 @@ lives in **[docs/](docs/README.md)**.
 
 ## 👤 Ownership
 
-| Item       | Details                                                                                       |
-| ---------- | --------------------------------------------------------------------------------------------- |
-| Maintainer | [@rozsival](https://github.com/rozsival) (see [`CODEOWNERS`](CODEOWNERS))                     |
-| Issues     | [GitHub Issues](https://github.com/rozsival/janus/issues)                                     |
-| Companion  | [Panther Minor](https://github.com/rozsival/panther-minor) — the AI stack running on Pantheon |
-| License    | [MIT](LICENSE)                                                                                |
+| Item       | Details                                                                   |
+| ---------- | ------------------------------------------------------------------------- |
+| Maintainer | [@rozsival](https://github.com/rozsival) (see [`CODEOWNERS`](CODEOWNERS)) |
+| Issues     | [GitHub Issues](https://github.com/rozsival/janus/issues)                 |
+| License    | [MIT](LICENSE)                                                            |

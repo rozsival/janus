@@ -1,8 +1,8 @@
 # AGENTS.md
 
-Janus is a remote control for the Pantheon home server via GPIO relay on Raspberry Pi Zero 2 W. It is a companion tool to [Panther Minor](https://github.com/rozsival/panther-minor), the AI stack running on Pantheon.
+Janus is a remote control for the Pantheon home server via GPIO relay on Raspberry Pi Zero 2 W. Pantheon is set up with the [Pantheon](https://github.com/rozsival/pantheon) baseline and runs [Panther Minor](https://github.com/rozsival/panther-minor) (the AI stack) and [Devbox](https://github.com/rozsival/devbox); the whole map is in [Pantheon's README](https://github.com/rozsival/pantheon#-the-stack).
 It allows power on/off, force shutdown, and hard reset through a simple web dashboard and API.
-"Pantheon" is only the name the author gave his home server, not a product, service or hardware model. The repo is public, so keep it framed that way in user-facing text.
+Janus works with any PC that has a front-panel power button header, so user-facing text keeps Pantheon as the example machine, not a requirement.
 
 Rust 2024 · Tokio · Hyper 1.x · MIT
 

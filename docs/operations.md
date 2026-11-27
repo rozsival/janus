@@ -50,8 +50,8 @@ With `STATUS_HOST` and `STATUS_PORT` set, a background task opens a TCP connecti
 `STATUS_POLL_MS`. A connection established within **1 second** means _on_; anything else means _off_. Without them,
 the controller only knows what it last did — see [Power state tracking](architecture.md#-power-state-tracking).
 
-Pick a port that is open exactly while Pantheon is up. On a Pantheon set up with the
-[Panther Minor](https://github.com/rozsival/panther-minor) install, its hardened SSH port works well:
+Pick a port that is open exactly while Pantheon is up. On a machine set up with the
+[Pantheon](https://github.com/rozsival/pantheon) baseline, its hardened SSH port (`2222` by default) works well:
 
 ```bash
 # Pantheon's LAN IP and SSH port
