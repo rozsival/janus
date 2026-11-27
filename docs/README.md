@@ -6,8 +6,8 @@
 New here? Start with [Hardware & wiring](hardware.md), then [Installation](installation.md). The project overview and
 quick start live in the [root README](../README.md).
 
-**Pantheon**, used throughout these pages, is just the name of the author's home server, not a product or service. Read
-it as "the machine you control".
+**Pantheon**, used throughout these pages, is the author's home server, set up with the [Pantheon](https://github.com/rozsival/pantheon) baseline.
+Read it as "the machine you control".
 
 ---
 
