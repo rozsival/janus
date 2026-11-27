@@ -2,7 +2,7 @@
 
 # 🖲️ Janus
 
-### Remote power control for the Pantheon home server
+### Remote power control for the [Pantheon](https://github.com/rozsival/pantheon) home server
 
 ![Platform](https://img.shields.io/badge/Platform-Raspberry%20Pi%20Zero%202%20W-0A84FF)
 ![Architecture](https://img.shields.io/badge/Architecture-ARM64-E01F27)
